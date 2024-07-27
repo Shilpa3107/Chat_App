@@ -28,12 +28,12 @@
        input[type=text] , input[type=password],input[type=button]{
         padding:10px;
         margin:10px;
-        width:98%;
+        width:100%;
         border-radius:5px;
         border:solid 1px grey;
        }
        input[type=button] {
-       width:103%;
+       width:100%;
        cursor: pointer;
        background-color: #2b5488;
        color:white;
@@ -65,21 +65,14 @@
     <div id="wrapper">
         <div id="header">
             My Chat
-            <div style="font-size:20px; font-family:myFont;">Signup</div>
+            <div style="font-size:20px; font-family:myFont;">Login</div>
          
         </div>
         <div id ="error" >some text</div>
         <form id="myform">
-            <input type="text" name="username" placeholder="Username"><br>
             <input type="text" name="email" placeholder="Email"><br>
-            <div style ="padding:10px">
-            <br>Gender:<br>
-            <input type="radio" value="Male" name="gender"> Male <br>
-            <input type="radio" value="Female" name="gender"> Female <br>
-            </div>
             <input type="password" name="password" placeholder="Password"><br>
-            <input type="password" name="password2" placeholder="Retype Password"><br>
-            <input type="button" value="Sign up" id="signup_button"><br>
+            <input type="button" value="Login" id="login_button"><br>
             
         </form>
     </div>
@@ -91,12 +84,12 @@
         function _(element){
             return document.getElementById(element);
         }
-       var signup_button = _("signup_button");
-       signup_button.addEventListener("click",collect_data);
+       var login_button = _("login_button");
+       login_button.addEventListener("click",collect_data);
 
        function collect_data(){
-        signup_button.disabled = true;
-        signup_button.value = "Loading...Please wait..";
+        login_button.disabled = true;
+        login_button.value = "Loading...Please wait..";
 
         var myform = _("myform");
         var inputs = myform.getElementsByTagName("INPUT");
@@ -105,26 +98,15 @@
         for(var i = inputs.length-1;i>=0;i--){
             var key = inputs[i].name;
             switch(key){
-                case "username":
-                     data.username = inputs[i].value;
-                     break;
                 case "email":
                      data.email = inputs[i].value;
-                     break;
-                case "gender":
-                    if(inputs[i].checked){
-                     data.gender = inputs[i].value;
-                    }
                      break;
                 case "password":
                      data.password = inputs[i].value;
                      break;
-                case "password2":
-                     data.password2 = inputs[i].value;
-                     break;
             }
         }
-        send_data(data,"signup");
+        send_data(data,"login");
 
        }
        function send_data(data,type){
@@ -132,8 +114,8 @@
            xml.onload = function(){
             if(xml.readyState == 4 || xml.status == 200){
                 handle_result(xml.responseText);
-                signup_button.disabled = false;
-                signup_button.value = "Sign up";
+                login_button.disabled = false;
+                login_button.value = "Login";
             }
         }
             data.data_type = type;
@@ -144,6 +126,7 @@
 
        }
        function handle_result(result){
+        
         var data = JSON.parse(result);
         if(data.data_type == "info"){
              window.location="index.php";
