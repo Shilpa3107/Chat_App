@@ -5,39 +5,25 @@ $info= (Object)[];
     $data = false;
 
     //validate info
-    $data['email'] = $DATA_OBJ->email;
-
-    if(empty( $DATA_OBJ->email))
-    {
-        $Error = "please enter a valid email";
-    }
-    if(empty( $DATA_OBJ->password))
-    {
-        $Error = "please enter a valid password";
-    }
+    $data['userid'] = $_SESSION['userid'];
 
     if($Error == ""){
 
-    $query = "select * from users where email = :email limit 1";
+    $query = "select * from users where userid = :userid limit 1";
     $result = $DB->read($query,$data);
 
      if(is_array($result))
      {
-
         $result = $result[0];
-        if($result->password == $DATA_OBJ->password)
-        {
-              $_SESSION['userid'] = $result->userid;
-              $info->message = "You're success infully logged";;
-              $info->data_type = "info";
-              echo json_encode($info);
-        }
-        else{
+        $result->data_type = "user_info";
+        //check if image exists
+        $image = ($result->gender == "Male") ? "ui/images/user_male.png" : "ui/images/user_female.jpg";
+          if (!empty($result->image) && file_exists($result->image)) {
+          $image = $result->image;
+   }
+   $result->image = $image;
 
-            $info->message = "Wrong password";;
-            $info->data_type = "error";
-            echo json_encode($info);
-        }
+        echo json_encode($result);
      }
      else{
         $info->message = "Wrong email";
@@ -47,7 +33,7 @@ $info= (Object)[];
     }
     else{
     
-       $info->message = "$Error";
+       $info->message = $Error;
        $info->data_type = "error";
        echo json_encode($info);
     }

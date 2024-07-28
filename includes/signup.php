@@ -39,6 +39,16 @@ $info= (Object)[];
          $Error .= "Please enter a valid email . <br>";
      }
     }
+
+    $data['gender'] = isset($DATA_OBJ->gender) ? $DATA_OBJ->gender:null;
+    if(empty($DATA_OBJ->gender))
+    {
+     $Error .= "Please select a  gender . <br>";
+    }else{
+        if($DATA_OBJ->gender != "Male" && $DATA_OBJ->gender != "Female"){
+            $Error .= "Please select a valid gender. <br>";
+        }
+    }
  
     $data['password'] = $DATA_OBJ->password;
     $password = $DATA_OBJ->password2;
@@ -62,7 +72,7 @@ $info= (Object)[];
 
     if($Error == ""){
 
-    $query = "insert into users (userid,username,email,password,date) values (:userid,:username,:email,:password,:date)";
+    $query = "insert into users (userid,username,email,gender,password,date) values (:userid,:username,:email,:gender,:password,:date)";
     $result = $DB->write($query,$data);
 
      if($result)

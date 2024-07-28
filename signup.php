@@ -74,13 +74,17 @@
             <input type="text" name="email" placeholder="Email"><br>
             <div style ="padding:10px">
             <br>Gender:<br>
-            <input type="radio" value="Male" name="gender"> Male <br>
-            <input type="radio" value="Female" name="gender"> Female <br>
+            <input type="radio" value="Male" name="gender_male"> Male <br>
+            <input type="radio" value="Female" name="gender_female"> Female <br>
             </div>
             <input type="password" name="password" placeholder="Password"><br>
             <input type="password" name="password2" placeholder="Retype Password"><br>
             <input type="button" value="Sign up" id="signup_button"><br>
             
+            <br>
+            <a href="login.php" style="display:block;text-align:center; text-decoration:none">
+                Already have an Account? Login here
+            </a>
         </form>
     </div>
     
@@ -111,7 +115,8 @@
                 case "email":
                      data.email = inputs[i].value;
                      break;
-                case "gender":
+                case "gender_male":
+                case "gender_female":
                     if(inputs[i].checked){
                      data.gender = inputs[i].value;
                     }
