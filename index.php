@@ -113,7 +113,7 @@
     <div id="wrapper">
         <div id="left_pannel">
             <div id="user_info" style="padding:10px">
-         <img id="profile_image" src="ui/images/user_female.jpg">
+         <img id="profile_image" src="ui/images/user_female.jpg" style=" height: 100px; width:100px;">
     <br>
     <span id="username">Username</span>
     <br>
@@ -310,7 +310,58 @@ function send_data(data,type){
     xml.send(data_string);
 
 }
+function upload_profile_image(files){
 
+    var myfile = files[0].name;
+    
+    var change_image_button   = _("change_image_button");
+    change_image_button.disabled = true;
+    change_image_button.innerHTML = "Uploading Image...";
+
+    var myform = new FormData();
+
+    var xml = new XMLHttpRequest();
+
+   xml.onload = function(){
+
+    if(xml.readyState == 4 || xml.status == 200){
+        //alert(xml.responseText);
+       
+        get_data({},"user_info");
+        get_settings(true);
+        change_image_button.disabled = false;
+        change_image_button.innerHTML = "Change Image";
+    }
+}
+    myform.append('file', files[0]);
+    myform.append('data_type',"change_profile_image"); 
+
+    xml.open("POST","uploader.php",true);
+    xml.send(myform);
+}
+
+function handle_drag_and_drop(e){
+
+    if(e.type == "dragover"){
+
+        e.preventDefault();
+        e.target.className = "dragging";
+    } 
+    else if(e.type == "dragleave"){
+
+          e.target.className = "";
+    }
+     else if(e.type == "drop"){
+
+        e.preventDefault();
+        e.target.className = "";
+
+        upload_profile_image(e.dataTransfer.files);
+    }
+    else{
+        e.target.className = "";
+    }
+}
 </script>
 </html>
 

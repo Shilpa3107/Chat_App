@@ -72,16 +72,21 @@ $mydata='
           color: white; 
           display:none;
        }
-
+ 
+       .dragging{
+        border: dashed 2px #aaa;
+        }
     </style>
         <div id ="error" >error</div>
         <div style="display: flex; animation: appear 1s ease;">
         <div>
-        <img src="'.$image.'" style="width: 200px; height: 200px; margin: 10px;"/>
-        <label id="change_image_button" style="background-color: #9b9a80; display:inline-block; padding:1em; border-radius:5px; cursor:pointer;" >
+        <span style = "font-size: 11px;"> drag and drop an image to change</span><br>
+        <img ondragover="handle_drag_and_drop(event)"  ondrop="handle_drag_and_drop(event)"  ondragleave="handle_drag_and_drop(event)" src="'.$image.'" style="width: 200px; height: 200px; margin: 10px;"/>
+        <label for="change_image_input" id="change_image_button" style="background-color: #9b9a80; display:inline-block; padding:1em; border-radius:5px; cursor:pointer;" >
         Change Image 
-        <input type="file" onchange="upload_profile_image(this.files)" value="Change Image" id="change_image_input" style="display: none;" >
         </label> 
+        <input type="file" onchange="upload_profile_image(this.files)" value="Change Image" id="change_image_input" style="display: none;" >
+        
         </div>
         <form id="myform">
             <input type="text" name="username" placeholder="Username" value="'.$data->username.'"><br>
@@ -97,15 +102,16 @@ $mydata='
         </form>
     </div>
  ';
- }
+
 $info->message = $mydata;
 $info->data_type = "settings";
 echo json_encode($info);
 
-die;
+}else{
 
 $info->message = "No contacts were found";
 $info->data_type = "error";
 echo json_encode($info);
 
+}
 ?>
