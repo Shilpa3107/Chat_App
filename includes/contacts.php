@@ -1,6 +1,7 @@
 <?php
 
-$sql = "select * from users limit 10";
+$myid = $_SESSION['userid'];
+$sql = "select * from users where userid != '$myid' limit 10";
 $myusers = $DB->read($sql,[]);
 
 $mydata = '
@@ -24,6 +25,15 @@ $mydata = '
         width: 100px;
         height: 100px;
     }
+        #contact{
+          cursor:pointer;
+          transition: all .5s cubic-bezier(0.68,.-2,.0.265,.1.55);
+
+     }
+        #contact:hover{
+
+        transform:scale(1.1);
+         }
 </style>
 <div id="contacts-container">';
 
@@ -34,7 +44,7 @@ if(is_array($myusers)){
             $image = $row->image;
         }
         $mydata .= "
-        <div id='contact'>
+        <div id='contact' userid='$row->userid' onclick='start_chat(event)'>
             <img src='$image'>
             <br>$row->username
         </div>";

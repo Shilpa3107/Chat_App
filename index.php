@@ -14,6 +14,7 @@
        #wrapper{
         max-width: 900px;
         min-height:500px;
+        max-height:630px;
         display: flex;
         margin:auto;
         color:white;
@@ -70,12 +71,14 @@
         background-color: #383e48;
         flex:1;
         min-height: 430px;
+        max-height: 530px;
        }
        #inner_right_pannel{
         background-color: #f2f7f8;
         flex:2;
         min-height: 430px;
         transition: all 2s ease;
+        max-height: 530px;
        }
        #radio_contacts:checked ~ #inner_right_pannel{
         flex:0;
@@ -83,18 +86,89 @@
        #radio_settings:checked ~ #inner_right_pannel{
         flex:0;
        }
-       #contact {
-    width: 100px;
-    height: 120px;
+       #active_contact {
+    height: 70px;
     margin: 10px;
-    display: inline-block;
-    vertical-align: top;
-    overflow: hidden;
+    border: solid thin #aaa;
+    padding:5px;
+    background-color: #eee;
+    color:#444;
 }
 
-#contact img {
-    width: 100px;
-    height: 100px;
+#active_contact img {
+    width: 70px;
+    height: 70px;
+    float: left;
+    margin:2px;
+}
+#message_left {
+    height: 70px;
+    margin: 10px;
+    padding:2px;
+    padding-right: 10px;
+    background-color: #c979d5;
+    color:white;
+    float:left;
+    box-shadow: 0px 0px 10px #aaa;
+    border-top-right-radius: 30%;
+    border-bottom-left-radius:50% ;
+    position: relative;
+    width:60%;
+    min-width: 200px;
+}
+
+#message_left img {
+    width: 60px;
+    height: 60px;
+    float: left;
+    margin:2px;
+    border-radius: 50%;
+    border: solid 2px white;
+}
+#message_left div {
+    width: 20px;
+    height: 20px;
+    background-color: #34474f;
+    border: solid 2px white;
+    border-radius: 50%;
+    position: absolute;
+    left: -10px;
+    top:30px;
+}
+
+#message_right {
+    height: 70px;
+    margin: 10px;
+    padding:2px;
+    padding-right: 10px;
+    background-color: #fbffee;
+    color:#444;
+    float:right;
+    box-shadow: 0px 0px 10px #aaa;
+    border-top-left-radius: 30%;
+    border-bottom-right-radius:50% ;
+    position: relative;
+    width:60%;
+    min-width: 200px;
+}
+
+#message_right img {
+    width: 60px;
+    height: 60px;
+    float: left;
+    margin:2px;
+    border-radius: 50%;
+    border: solid 2px white;
+}
+#message_right div {
+    width: 20px;
+    height: 20px;
+    background-color: #34474f;
+    border: solid 2px white;
+    border-radius: 50%;
+    position: absolute;
+    right: -10px;
+    top:30px;
 }
 
         .loader_on{
@@ -107,6 +181,20 @@
         .loader_off{
             display:none;
         }
+        input[type=text] , input[type=password],input[type=submit]{
+        padding:10px;
+        margin:10px;
+        width:100%;
+        border-radius:5px;
+        border:solid 1px grey;
+       }
+       input[type=submit] {
+       width:106%;
+       cursor: pointer;
+       background-color: #2b5488;
+       color:white;
+
+       }
     </style>
 </head>
 <body>
@@ -152,6 +240,9 @@
     
 </body>
 <script type="text/javascript">
+ 
+      var CURRENT_CHAT_USER = "";
+
         function _(element){
             return document.getElementById(element);
         }
@@ -193,9 +284,14 @@
 
         }
         function handle_result(result,type){
-           // alert(result);
+          // alert(result);
+
         if(result.trim() != ""){
             
+
+            var inner_right_pannel = _("inner_right_pannel");
+            inner_right_pannel.style.overflow = "visible";
+                    
             var obj = JSON.parse(result);
             if(typeof(obj.logged_in) != "undefined" && !obj.logged_in){
                 window.location = "login.php";
@@ -212,11 +308,13 @@
                         break;
                 case "contacts":
                     var inner_left_pannel = _("inner_left_pannel");
+                    inner_right_pannel.style.overflow = "hidden";
                     inner_left_pannel.innerHTML = obj.message;
                 break;
                 case "chats":
                     var inner_left_pannel = _("inner_left_pannel");
-                    inner_left_pannel.innerHTML = obj.message;
+                    inner_left_pannel.innerHTML = obj.user;
+                    inner_right_pannel.innerHTML = obj.message;
                 break;
                 case "settings":
                     var inner_left_pannel = _("inner_left_pannel");
@@ -241,7 +339,10 @@
             }
         }
         get_data({},"user_info");
+        get_data({},"contacts");
 
+        var radio_contacts = _("radio_contacts");
+        radio_contacts.checked = true;
         function get_contacts(e){
             get_data({},"contacts");
            }
@@ -250,6 +351,21 @@
            }
            function get_settings(e){
             get_data({},"settings");
+           }
+           function send_message(e)
+           {
+
+              var message_text = _("message_text");
+              alert(message_text.value);
+            // if(message_text.value.trim() == ""){
+            //     alert("Please type something to send");
+            //     return;
+            // }
+            // get_data({
+            //     message:message_text.value.trim(),
+            //     userid :CURRENT_CHAT_USER
+
+            // },"send_message");
            }
     </script>
 
@@ -361,6 +477,17 @@ function handle_drag_and_drop(e){
     else{
         e.target.className = "";
     }
+}
+function start_chat(e){
+    var userid = e.target.getAttribute("userid");
+
+   if(e.target.id == ""){
+       userid = e.target.parentNode.getAttribute("userid");
+   }
+   CURRENT_CHAT_USER = userid;
+    var radio_chat = _("radio_chat");
+    radio_chat.checked = true;
+    get_data({userid:CURRENT_CHAT_USER},"chats");
 }
 </script>
 </html>
