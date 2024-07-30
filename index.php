@@ -325,6 +325,9 @@
                     get_data({},"user_info");
                     get_settings(true);
                 break;
+                case "send_message":
+                    alert(obj.message);
+                break;
                 }
 
 
@@ -356,16 +359,16 @@
            {
 
               var message_text = _("message_text");
+              if(message_text.value.trim() == ""){
+                alert("Please type something to send");
+                    return;
+              }
               alert(message_text.value);
-            // if(message_text.value.trim() == ""){
-            //     alert("Please type something to send");
-            //     return;
-            // }
-            // get_data({
-            //     message:message_text.value.trim(),
-            //     userid :CURRENT_CHAT_USER
+            get_data({
+                message:message_text.value.trim(),
+                userid :CURRENT_CHAT_USER
 
-            // },"send_message");
+            },"send_message");
            }
     </script>
 

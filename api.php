@@ -66,7 +66,7 @@ else if(isset($DATA_OBJ->data_type) && $DATA_OBJ->data_type == "save_settings"){
 }
 else if(isset($DATA_OBJ->data_type) && $DATA_OBJ->data_type == "send_message"){
 
-    //send message
+    //send_message
     include("includes/send_message.php");
 }
 
