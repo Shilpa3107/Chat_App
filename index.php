@@ -394,11 +394,11 @@ setInterval(function(){
 
     if(CURRENT_CHAT_USER != ""){
 
-        get_data({userid:CURRENT_CHAT_USER},"chats_refresh");
+        get_data({userid:CURRENT_CHAT_USER},"chats");
     }
     
 
-},5000);
+},10000);
     </script>
 
 
