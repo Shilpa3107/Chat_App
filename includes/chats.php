@@ -36,16 +36,7 @@ if(is_array($result)){
     ";
 
     
-    $messages .= "
-        </div>
-        <div style='display:flex; width:100%; height:40px;'>
-        <label for='file'><img src = 'ui/icons/clip.png' style='opacity:0.8; width:30px; margin;5px; cursor:pointer;'></label>
-            <input type='file' id='message_file' name='file' style='display:none;'/>
-             <input id='message_text' style='flex:6; border:solid thin #ccc; border-bottom:none; font-size:14px; padding:4px;' type='text' placeholder='Type your message'/>
-            <input style='flex:1; cursor:pointer;' type='button' value='send' onclick='send_message(event)'/>
-        </div>
-    </div>
-    ";
+    $messages .= message_controls();
 
     $info->user = $mydata;
     $info->message = $messages;

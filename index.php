@@ -313,8 +313,20 @@
                 break;
                 case "chats":
                     var inner_left_pannel = _("inner_left_pannel");
+
                     inner_left_pannel.innerHTML = obj.user;
                     inner_right_pannel.innerHTML = obj.message;
+
+                    var messages_holder = _("messages_holder");
+                    
+                     setTimeout(function(){
+
+                        messages_holder.scrollTo(0,messages_holder.scrollHeight);
+                        var message_text = _("message_text");
+                        message_text.focus();
+                    },0);
+
+
                 break;
                 case "settings":
                     var inner_left_pannel = _("inner_left_pannel");
@@ -368,7 +380,11 @@
         // Clear the text box
         message_text.value = "";
 }
-
+function enter_pressed(e){
+    if(e.keyCode == 13){
+        send_message(e);
+    }
+}
     </script>
 
 

@@ -57,10 +57,11 @@ if(is_array($result)){
     //read from db
     $a['msgid'] = $arr['msgid'];
     
-    $sql = "select * from messages where msgid = :msgid limit 10";
+    $sql = "select * from messages where msgid = :msgid order by id desc limit 10";
    $result2 = $DB->read($sql,$a);
 
     if(is_array($result2)){
+        $result2 = array_reverse($result2);
     
         foreach($result2 as $data){
 
@@ -75,19 +76,7 @@ if(is_array($result)){
         }
     }
 
-    $messages .= "
-        </div>
-       <div style='display:flex; width:100%; height:40px;'>
-    <label for='message_file'>
-        <img src='ui/icons/clip.png' style='opacity:0.8; width:30px; margin:5px; cursor:pointer;'>
-    </label>
-    <input type='file' id='message_file' name='file' style='display:none;'/>
-    <input id='message_text' style='flex:6; border:solid thin #ccc; border-bottom:none; font-size:14px; padding:4px;' type='text' placeholder='Type your message'/>
-    <input style='flex:1; cursor:pointer;' type='button' value='send' onclick='send_message(event)'/>
-</div>
-
-    </div>
-    ";
+    $messages .= message_controls();
 
     $info->user = $mydata;
     $info->message = $messages;
