@@ -355,21 +355,26 @@
            function get_settings(e){
             get_data({},"settings");
            }
-           function send_message(e)
-           {
+           function send_message(e) {
+    var message_text = _("message_text");
+    if (message_text.value.trim() == "") {
+        alert("Please type something to send");
+        return;
+    }
 
-              var message_text = _("message_text");
-              if(message_text.value.trim() == ""){
-                alert("Please type something to send");
-                    return;
-              }
-              alert(message_text.value);
-            get_data({
-                message:message_text.value.trim(),
-                userid :CURRENT_CHAT_USER
+    // Alert with the message text and ask for confirmation
+    if (confirm("Message sent: " + message_text.value.trim())) {
+        // Proceed to send the message
+        get_data({
+            message: message_text.value.trim(),
+            userid: CURRENT_CHAT_USER
+        }, "send_message");
 
-            },"send_message");
-           }
+        // Clear the text box
+        message_text.value = "";
+    }
+}
+
     </script>
 
 
