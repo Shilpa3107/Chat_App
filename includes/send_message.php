@@ -54,7 +54,20 @@ if(is_array($result)){
         <div id='messages_holder' style='height:480px; overflow-y:scroll;'>
     ";
 
+    //read from db
+    $a['msgid'] = $arr['msgid'];
     
+    $sql = "select * from messages where msgid = :msgid limit 10";
+   $result2 = $DB->read($sql,$a);
+
+    if(is_array($result2)){
+    
+        foreach($result2 as $data){
+
+            $messages .= message_right($data,$row);
+        }
+    }
+
     $messages .= "
         </div>
        <div style='display:flex; width:100%; height:40px;'>

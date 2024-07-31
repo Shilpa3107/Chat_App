@@ -71,7 +71,7 @@ else if(isset($DATA_OBJ->data_type) && $DATA_OBJ->data_type == "send_message"){
 }
 
 
-function message_left($row){
+function message_left($data ,$row){
 
     return "
     <div id='message_left' >
@@ -83,14 +83,15 @@ function message_left($row){
     </div>";
 }
 
-function message_right($row){
+function message_right($data ,$row){
+
 
     return "
     <div id='message_right' >
         <div></div>
             <img src='$row->image' style='float:right'>
             <b>$row->username</b><br>
-            This is a text message<br><br>
+            $data->message<br><br>
             <span style='font-size:11px; color: #999;'>20 Jan 2024 10:00</span>
         </div>
     ";

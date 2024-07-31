@@ -325,9 +325,7 @@
                     get_data({},"user_info");
                     get_settings(true);
                 break;
-                case "send_message":
-                    alert(obj.message);
-                break;
+                
                 }
 
 
@@ -362,17 +360,13 @@
         return;
     }
 
-    // Alert with the message text and ask for confirmation
-    if (confirm("Message sent: " + message_text.value.trim())) {
-        // Proceed to send the message
-        get_data({
+     get_data({
             message: message_text.value.trim(),
             userid: CURRENT_CHAT_USER
         }, "send_message");
 
         // Clear the text box
         message_text.value = "";
-    }
 }
 
     </script>
