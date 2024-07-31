@@ -78,7 +78,7 @@ function message_left($data ,$row){
     <div></div>
         <img src='$row->image'>
         <b>$row->username</b><br>
-        This is a text message<br><br>
+        $data->message<br><br>
         <span style='font-size:11px; color: white;'>20 Jan 2024 10:00</span>
     </div>";
 }

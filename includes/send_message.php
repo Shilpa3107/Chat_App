@@ -19,7 +19,7 @@ if(is_array($result)){
     $arr2['sender'] = $_SESSION['userid'];
     $arr2['receiver'] = $arr['userid'];
 
-    $sql = "select * from messages where sender = :sender && receiver = :receiver limit 1";
+    $sql = "select * from messages where (sender = :sender && receiver = :receiver) || (sender = :receiver && sender = :receiver)  limit 1";
    $result2 = $DB->read($sql,$arr2);
 
     if(is_array($result2)){
@@ -64,7 +64,14 @@ if(is_array($result)){
     
         foreach($result2 as $data){
 
-            $messages .= message_right($data,$row);
+            $myuser = $DB->get_user($data->sender);
+ 
+            if($_SESSION['userid'] == $data->sender){
+                 $messages .= message_right($data,$myuser);
+            } else{
+
+                $messages .= message_left($data,$myuser);
+            }
         }
     }
 
