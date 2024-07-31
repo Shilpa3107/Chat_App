@@ -284,7 +284,7 @@
 
         }
         function handle_result(result,type){
-          // alert(result);
+          //alert(result);
 
         if(result.trim() != ""){
             
@@ -311,6 +311,10 @@
                     inner_right_pannel.style.overflow = "hidden";
                     inner_left_pannel.innerHTML = obj.message;
                 break;
+                case "chats_refresh":
+                      var messages_holder = _("messages_holder");
+                      messages_holder.innerHTML = obj.message;
+                    break;
                 case "chats":
                     var inner_left_pannel = _("inner_left_pannel");
 
@@ -385,6 +389,16 @@ function enter_pressed(e){
         send_message(e);
     }
 }
+
+setInterval(function(){
+
+    if(CURRENT_CHAT_USER != ""){
+
+        get_data({userid:CURRENT_CHAT_USER},"chats_refresh");
+    }
+    
+
+},5000);
     </script>
 
 
