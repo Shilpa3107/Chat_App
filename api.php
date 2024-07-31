@@ -74,6 +74,11 @@ else if(isset($DATA_OBJ->data_type) && $DATA_OBJ->data_type == "delete_message")
     //delete_message
     include("includes/delete_message.php");
 }
+else if(isset($DATA_OBJ->data_type) && $DATA_OBJ->data_type == "delete_thread"){
+
+    //delete_thread
+    include("includes/delete_thread.php");
+}
 
 
 function message_left($data ,$row){
@@ -128,7 +133,7 @@ function message_controls(){
 
     return "
     </div>
-    <span style='color:purple; cursor:pointer;'>Delete this thread</span>
+    <span onclick='delete_thread(event)' style='color:purple; cursor:pointer;'>Delete this thread</span>
        <div style='display:flex; width:100%; height:40px;'>
     <label for='message_file'>
         <img src='ui/icons/clip.png' style='opacity:0.8; width:30px; margin:5px; cursor:pointer;'>
