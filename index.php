@@ -160,6 +160,19 @@
     border-radius: 50%;
     border: solid 2px white;
 }
+
+#message_right div img{
+    width: 25px;
+    height: 18px;
+    float: none;
+    margin:0px;
+    border-radius: 50%;
+    border: none;
+    position: absolute;
+    top:30px;
+    right:10px;
+}
+
 #message_right div {
     width: 20px;
     height: 20px;
@@ -242,6 +255,7 @@
 <script type="text/javascript">
  
       var CURRENT_CHAT_USER = "";
+      var SEEN_STATUS = false;
 
         function _(element){
             return document.getElementById(element);
@@ -307,15 +321,18 @@
                         profile_image.src = obj.image;
                         break;
                 case "contacts":
+                    // SEEN_STATUS = false;
                     var inner_left_pannel = _("inner_left_pannel");
                     inner_right_pannel.style.overflow = "hidden";
                     inner_left_pannel.innerHTML = obj.message;
                 break;
                 case "chats_refresh":
+                    SEEN_STATUS = false;
                       var messages_holder = _("messages_holder");
                       messages_holder.innerHTML = obj.message;
                     break;
                 case "chats":
+                    SEEN_STATUS = false;
                     var inner_left_pannel = _("inner_left_pannel");
 
                     inner_left_pannel.innerHTML = obj.user;
@@ -388,17 +405,27 @@ function enter_pressed(e){
     if(e.keyCode == 13){
         send_message(e);
     }
+    SEEN_STATUS = true;
 }
 
 setInterval(function(){
 
     if(CURRENT_CHAT_USER != ""){
 
-        get_data({userid:CURRENT_CHAT_USER},"chats_refresh");
+       // console.log(SEEN_STATUS);
+        get_data({
+            userid:CURRENT_CHAT_USER,
+            seen: SEEN_STATUS
+        },"chats_refresh");
     }
     //if u want to load the chats by refresh instead of chats write chats_refresh
 
 },5000);
+
+
+function set_seen(e){
+     SEEN_STATUS = true;
+}
     </script>
 
 

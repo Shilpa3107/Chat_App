@@ -95,15 +95,24 @@ function message_right($data ,$row){
         $image = $row->image;
     }
 
-    return "
+    $a =  "
     <div id='message_right' >
-        <div></div>
+        <div>";
+        // print_r($data->seen);
+        // print_r($data->received);
+        if($data->seen){
+        $a .= "<img src='ui/images/tick.png'  style=''/>";
+        } else if($data->received){
+        $a .= "<img src='ui/images/tick_grey.png'  style=''/>";
+        }
+        $a .= "</div>
             <img src='$image' style='float:right'>
             <b>$row->username</b><br>
             $data->message<br><br>
             <span style='font-size:11px; color: #888;'>".date($data->date)."</span>
         </div>
     ";
+    return $a;
 }
 
 function message_controls(){
