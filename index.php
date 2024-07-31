@@ -328,7 +328,7 @@
                         messages_holder.scrollTo(0,messages_holder.scrollHeight);
                         var message_text = _("message_text");
                         message_text.focus();
-                    },0);
+                    },100);
 
 
                 break;
@@ -394,11 +394,11 @@ setInterval(function(){
 
     if(CURRENT_CHAT_USER != ""){
 
-        get_data({userid:CURRENT_CHAT_USER},"chats");
+        get_data({userid:CURRENT_CHAT_USER},"chats_refresh");
     }
-    
+    //if u want to load the chats by refresh instead of chats write chats_refresh
 
-},10000);
+},5000);
     </script>
 
 

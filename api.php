@@ -73,10 +73,15 @@ else if(isset($DATA_OBJ->data_type) && $DATA_OBJ->data_type == "send_message"){
 
 function message_left($data ,$row){
 
+    $image = ($row->gender == "Male") ? "ui/images/user_male.png" : "ui/images/user_female.jpg";
+    if(file_exists($row->image)){
+        $image = $row->image;
+    }
+
     return "
     <div id='message_left' >
     <div></div>
-        <img src='$row->image'>
+        <img src='$image'>
         <b>$row->username</b><br>
         $data->message<br><br>
         <span style='font-size:11px; color: white;'>".date($data->date)."</span>
@@ -85,11 +90,15 @@ function message_left($data ,$row){
 
 function message_right($data ,$row){
 
+    $image = ($row->gender == "Male") ? "ui/images/user_male.png" : "ui/images/user_female.jpg";
+    if(file_exists($row->image)){
+        $image = $row->image;
+    }
 
     return "
     <div id='message_right' >
         <div></div>
-            <img src='$row->image' style='float:right'>
+            <img src='$image' style='float:right'>
             <b>$row->username</b><br>
             $data->message<br><br>
             <span style='font-size:11px; color: #888;'>".date($data->date)."</span>

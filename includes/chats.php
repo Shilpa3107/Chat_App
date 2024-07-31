@@ -26,6 +26,8 @@ if(is_array($result)){
 
     $row->image = $image;
 
+     $mydata="";
+
     if(!$refresh){
         $mydata = "Now Chatting with:<br>
         <div id='active_contact' >
@@ -34,6 +36,7 @@ if(is_array($result)){
         </div>";
     }
 
+    $messages = ""; // Ensure $messages is initialized
     // Create the messages holder parent div
     if(!$refresh){
         $messages .= "
@@ -80,7 +83,7 @@ if(is_array($result)){
     $result2 = $DB->read($sql,$a);
 
     $mydata = "Previous Chats:<br>";
-    $messages = ""; // Ensure $messages is initialized
+    
 
     if(is_array($result2)){
         $result2 = array_reverse($result2);
@@ -98,9 +101,10 @@ if(is_array($result)){
         $image = $myuser->image;
     }
          $mydata .= "
-            <div id='active_contact' >
-                <img src='$image'>
-                <br>$myuser->username
+            <div id='active_contact' userid='$myuser->userid' onclick='start_chat(event)' style='cursor:pointer'>
+                 <img src='$image'>
+                <br>$myuser->username<br>
+                <span style='font-size: 11px;'>'$data->message'</span>
             </div>";
 
             if($_SESSION['userid'] == $data->sender){
