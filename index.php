@@ -117,7 +117,7 @@
     min-width: 200px;
 }
 
-#message_left img {
+#message_left #prof_img {
     width: 60px;
     height: 60px;
     float: left;
@@ -152,7 +152,7 @@
     min-width: 200px;
 }
 
-#message_right img {
+#message_right #prof_img{
     width: 60px;
     height: 60px;
     float: left;
@@ -171,6 +171,24 @@
     position: absolute;
     top:30px;
     right:10px;
+}
+
+#message_right #trash{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top:15px;
+    left:-10px;
+    cursor:pointer;
+}
+
+#message_left #trash{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top:15px;
+    right:-10px;
+    cursor:pointer;
 }
 
 #message_right div {
@@ -443,6 +461,23 @@ setInterval(function(){
 
 function set_seen(e){
      SEEN_STATUS = true;
+}
+
+function delete_message(e)
+{
+      if(confirm("Are you sure you want to delete this message?")){
+
+        var msgid = e.target.getAttribute("msgid");
+        get_data({
+            rowid:msgid
+            },"delete_message");
+
+            get_data({
+            userid:CURRENT_CHAT_USER,
+            seen: SEEN_STATUS
+        },"chats_refresh");
+      }
+
 }
     </script>
 

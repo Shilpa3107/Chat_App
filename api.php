@@ -69,6 +69,11 @@ else if(isset($DATA_OBJ->data_type) && $DATA_OBJ->data_type == "send_message"){
     //send_message
     include("includes/send_message.php");
 }
+else if(isset($DATA_OBJ->data_type) && $DATA_OBJ->data_type == "delete_message"){
+
+    //delete_message
+    include("includes/delete_message.php");
+}
 
 
 function message_left($data ,$row){
@@ -81,11 +86,12 @@ function message_left($data ,$row){
     return "
     <div id='message_left' >
     <div></div>
-        <img src='$image'>
+        <img id='prof_img' src='$image'>
         <b>$row->username</b><br>
         $data->message<br><br>
         <span style='font-size:11px; color: white;'>".date($data->date)."</span>
-    </div>";
+      <img id='trash' src='ui/images/trash.png' onclick='delete_message(event)' msgid='$data->id'/>
+        </div>";
 }
 
 function message_right($data ,$row){
@@ -98,19 +104,21 @@ function message_right($data ,$row){
     $a =  "
     <div id='message_right' >
         <div>";
-        // print_r($data->seen);
-        // print_r($data->received);
+        
         if($data->seen){
         $a .= "<img src='ui/images/tick.png'  style=''/>";
         } else if($data->received){
         $a .= "<img src='ui/images/tick_grey.png'  style=''/>";
         }
         $a .= "</div>
-            <img src='$image' style='float:right'>
+            <img id ='prof_img' src='$image' style='float:right'>
             <b>$row->username</b><br>
             $data->message<br><br>
             <span style='font-size:11px; color: #888;'>".date($data->date)."</span>
-        </div>
+           
+            <img id='trash' src='ui/images/trash.png' onclick='delete_message(event)' msgid='$data->id'/>
+ 
+            </div>
     ";
     return $a;
 }
@@ -120,6 +128,7 @@ function message_controls(){
 
     return "
     </div>
+    <span style='color:purple; cursor:pointer;'>Delete this thread</span>
        <div style='display:flex; width:100%; height:40px;'>
     <label for='message_file'>
         <img src='ui/icons/clip.png' style='opacity:0.8; width:30px; margin:5px; cursor:pointer;'>

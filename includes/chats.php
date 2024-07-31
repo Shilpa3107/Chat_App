@@ -50,7 +50,7 @@ if(is_array($result)){
 
     $a['sender'] = $_SESSION['userid'];
     $a['receiver'] = $arr['userid'];
-    $sql = "select * from messages where (sender = :sender && receiver = :receiver) || (sender = :receiver && receiver = :sender) order by id desc limit 10";
+    $sql = "select * from messages where (sender = :sender && receiver = :receiver && deleted_sender = 0) || (sender = :receiver && receiver = :sender && deleted_receiver = 0) order by id desc limit 10";
     $result2 = $DB->read($sql,$a);
 
     if(is_array($result2)){
