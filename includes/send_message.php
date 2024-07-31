@@ -24,7 +24,7 @@ if(is_array($result)){
 
     if(is_array($result2)){
     
-        $arr2['msgid'] = $result2[0]->msgid;
+        $arr['msgid'] = $result2[0]->msgid;
     }
     //print_r($arr);
     $query = "insert into messages (sender,receiver,message,date,msgid) values (:sender, :userid, :message, :date, :msgid)";
