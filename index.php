@@ -253,7 +253,10 @@
     
 </body>
 <script type="text/javascript">
- 
+
+     var sent_audio = new Audio("ui/images/message_sent.mp3"); 
+     var received_audio = new Audio("ui/images/message_received.mp3"); 
+
       var CURRENT_CHAT_USER = "";
       var SEEN_STATUS = false;
 
@@ -330,7 +333,15 @@
                     SEEN_STATUS = false;
                       var messages_holder = _("messages_holder");
                       messages_holder.innerHTML = obj.message;
+                      if(typeof obj.new_message != 'undefined'){
+                        if(obj.new_message){
+                            received_audio.play();
+                        }
+                      }
                     break;
+
+                case "send_message":
+                    sent_audio.play();
                 case "chats":
                     SEEN_STATUS = false;
                     var inner_left_pannel = _("inner_left_pannel");
@@ -347,8 +358,15 @@
                         message_text.focus();
                     },100);
 
+                    if(typeof obj.new_message != 'undefined'){
+                        if(obj.new_message){
+                            received_audio.play();
+                        }
+                      }
+
 
                 break;
+                
                 case "settings":
                     var inner_left_pannel = _("inner_left_pannel");
                     inner_left_pannel.innerHTML = obj.message;

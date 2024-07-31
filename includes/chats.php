@@ -39,6 +39,7 @@ if(is_array($result)){
     }
 
     $messages = ""; // Ensure $messages is initialized
+    $new_message = false;
     // Create the messages holder parent div
     if(!$refresh){
         $messages .= "
@@ -58,6 +59,11 @@ if(is_array($result)){
         foreach($result2 as $data){
             $myuser = $DB->get_user($data->sender);
     
+            //checkfor new messages
+            if($data->receiver == $_SESSION['userid'] && $data->received == 0){
+                $new_message = true;
+            }
+
             if($data->receiver == $_SESSION['userid'] && $data->received == 1 && $seen){
                 $DB->write("UPDATE messages SET seen = 1 WHERE id = '$data->id' LIMIT 1");
             }
@@ -80,6 +86,7 @@ if(is_array($result)){
 
     $info->user = $mydata;
     $info->message = $messages;
+    $info->new_message = $new_message;
     $info->data_type = "chats";
     if($refresh){
         $info->data_type = "chats_refresh";

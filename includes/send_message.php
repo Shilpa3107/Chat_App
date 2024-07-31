@@ -80,13 +80,13 @@ if(is_array($result)){
 
     $info->user = $mydata;
     $info->message = $messages;
-    $info->data_type = "chats";
+    $info->data_type = "send_message";
     echo json_encode($info);
 
 } else {
     //user not found
     $info->user = "That contact was not found";
-    $info->data_type = "chats";
+    $info->data_type = "send_message";
     echo json_encode($info);
 }
 
