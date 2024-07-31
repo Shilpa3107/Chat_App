@@ -52,4 +52,49 @@ if($data_type == "change_profile_image"){
   }
 
 }
+else if($data_type == "send_image"){
+  $arr['userid'] = "null";
+  if(isset($_POST['userid'])){
+    $arr['userid'] = addslashes($_POST['userid']);
+  } 
 
+  // Ensure `userid` is correctly received and not empty
+  if($arr['userid'] == "null") {
+    $info->message = "User ID not provided or invalid.";
+    echo json_encode($info);
+    die;
+  }
+
+  $arr['message'] = "";
+  $arr['date'] = date("Y-m-d H:i:s");
+  $arr['sender'] = $_SESSION['userid'];
+  $arr['msgid'] = get_random_string_max(60);
+  $arr['file'] = $destination;
+
+  $arr2['sender'] = $_SESSION['userid'];
+  $arr2['receiver'] = $arr['userid'];
+
+  $sql = "select * from messages where (sender = :sender AND receiver = :receiver) OR (sender = :receiver AND receiver = :sender) limit 1";
+  $result2 = $DB->read($sql, $arr2);
+
+  if(is_array($result2)){
+      $arr['msgid'] = $result2[0]->msgid;
+  }
+
+  $query = "insert into messages (sender,receiver,message,date,msgid,files) values (:sender, :userid, :message, :date, :msgid, :file)";
+  $DB->write($query, $arr);
+
+  $info->message = "Image sent successfully";
+  echo json_encode($info);
+}
+
+function get_random_string_max($length){
+  $array = array(0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+  $text = "";
+  $length = rand(4,$length);
+  for ($i=0; $i < $length; $i++) { 
+      $random = rand(0,61);
+      $text .= $array[$random];
+  }
+  return $text;
+}

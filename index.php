@@ -102,7 +102,6 @@
     margin:2px;
 }
 #message_left {
-    height: 70px;
     margin: 10px;
     padding:2px;
     padding-right: 10px;
@@ -137,7 +136,6 @@
 }
 
 #message_right {
-    height: 70px;
     margin: 10px;
     padding:2px;
     padding-right: 10px;
@@ -356,6 +354,13 @@
                             received_audio.play();
                         }
                       }
+
+                      setTimeout(function(){
+
+messages_holder.scrollTo(0,messages_holder.scrollHeight);
+var message_text = _("message_text");
+message_text.focus();
+},100);
                     break;
 
                 case "send_message":
@@ -388,6 +393,10 @@
                 case "settings":
                     var inner_left_pannel = _("inner_left_pannel");
                     inner_left_pannel.innerHTML = obj.message;
+                break;
+                case "send_image":
+                    alert(obj.message);
+
                 break;
                 case "save_settings":
                     alert(obj.message);
@@ -617,6 +626,32 @@ function start_chat(e){
     radio_chat.checked = true;
     get_data({userid:CURRENT_CHAT_USER},"chats");
 }
+
+function  send_image(files){
+
+    var myform = new FormData();
+
+var xml = new XMLHttpRequest();
+
+xml.onload = function(){
+
+if(xml.readyState == 4 || xml.status == 200){
+    handle_result(xml.responseText,"send_image");
+    get_data({
+            userid:CURRENT_CHAT_USER,
+            seen: SEEN_STATUS
+        },"chats_refresh");
+   
+}
+}
+myform.append('file', files[0]);
+myform.append('data_type',"send_image"); 
+myform.append('userid',CURRENT_CHAT_USER); 
+
+xml.open("POST","uploader.php",true);
+xml.send(myform);
+}
+
 </script>
 </html>
 

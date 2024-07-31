@@ -94,6 +94,7 @@ function message_left($data ,$row){
         <img id='prof_img' src='$image'>
         <b>$row->username</b><br>
         $data->message<br><br>
+        <img src='$data->files' style= 'width:100%'/><br>
         <span style='font-size:11px; color: white;'>".date($data->date)."</span>
       <img id='trash' src='ui/images/trash.png' onclick='delete_message(event)' msgid='$data->id'/>
         </div>";
@@ -119,6 +120,7 @@ function message_right($data ,$row){
             <img id ='prof_img' src='$image' style='float:right'>
             <b>$row->username</b><br>
             $data->message<br><br>
+            <img src='$data->files' style= 'width:100%'/><br>
             <span style='font-size:11px; color: #888;'>".date($data->date)."</span>
            
             <img id='trash' src='ui/images/trash.png' onclick='delete_message(event)' msgid='$data->id'/>
@@ -138,7 +140,7 @@ function message_controls(){
     <label for='message_file'>
         <img src='ui/icons/clip.png' style='opacity:0.8; width:30px; margin:5px; cursor:pointer;'>
     </label>
-    <input type='file' id='message_file' name='file' style='display:none;'/>
+    <input type='file' id='message_file' name='file' style='display:none;' onchange='send_image(this.files)'/>
     <input id='message_text'  onkeyup='enter_pressed(event)'  style='flex:6; border:solid thin #ccc; border-bottom:none; font-size:14px; padding:4px;' type='text' placeholder='Type your message'/>
     <input style='flex:1; cursor:pointer;' type='button' value='send' onclick='send_message(event)'/>
 </div>
